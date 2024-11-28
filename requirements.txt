@@ -4,3 +4,4 @@ kivy
 requests
 kivymd
 datetime
+flask_cors
