@@ -3,5 +3,4 @@ firebase-admin
 kivy 
 requests
 kivymd
-firebase_config
 datetime
