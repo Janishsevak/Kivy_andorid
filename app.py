@@ -3,15 +3,28 @@ from flask_cors import CORS
 from datetime import datetime
 import firebase_admin
 from firebase_admin import credentials, firestore
+import os
+import json
 
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app)  # Allow CORS for all domains
 
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate(r"F:\Mobile\firstapp-a74b4-firebase-adminsdk-annkl-e9ff32bc11.json")
-firebase_admin.initialize_app(cred)
-db = firestore.client()
+firebase_service_account = os.getenv("FIREBASE_SERVICE_ACCOUNT")
+
+if firebase_service_account:
+    # Parse the JSON string into a dictionary
+    cred_dict = json.loads(firebase_service_account)
+    
+    # Initialize Firebase using the parsed credentials
+    cred = credentials.Certificate(cred_dict)
+    firebase_admin.initialize_app(cred)
+    
+    # Now you can interact with Firebase (e.g., Firestore)
+    db = firestore.client()
+else:
+    print("Firebase credentials not found")
 
 # Collections in Firestore
 USERS_COLLECTION = "users"
